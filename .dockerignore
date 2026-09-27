@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/.env
+.env
+backups
+uploads
+server/uploads
+.git
+*.log
+run-local

@@ -1,0 +1,105 @@
+@import '@fontsource-variable/inter';
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-bg: var(--ph-bg);
+  --color-surface: var(--ph-surface);
+  --color-subtle: var(--ph-subtle);
+  --color-line: var(--ph-line);
+  --color-ink: var(--ph-ink);
+  --color-muted: var(--ph-muted);
+  --color-faint: var(--ph-faint);
+  --color-accent: var(--ph-accent);
+  --color-accent-soft: var(--ph-accent-soft);
+  --color-pos: var(--ph-pos);
+  --color-pos-soft: var(--ph-pos-soft);
+  --color-neg: var(--ph-neg);
+  --color-neg-soft: var(--ph-neg-soft);
+  --color-warn: var(--ph-warn);
+  --color-warn-soft: var(--ph-warn-soft);
+}
+
+:root {
+  --ph-bg: #f7f7f5;
+  --ph-surface: #ffffff;
+  --ph-subtle: #f2f2ef;
+  --ph-line: #e7e6e2;
+  --ph-ink: #18181b;
+  --ph-muted: #5f5f66;
+  --ph-faint: #9a9aa2;
+  --ph-accent: #5b4bd6;
+  --ph-accent-soft: #eeebfc;
+  --ph-pos: #0f8a5f;
+  --ph-pos-soft: #e5f5ee;
+  --ph-neg: #c9372c;
+  --ph-neg-soft: #fcebe9;
+  --ph-warn: #b26b00;
+  --ph-warn-soft: #fdf3e1;
+  --ph-series-in: #5b4bd6;
+  --ph-series-out: #d96a2b;
+  color-scheme: light;
+}
+
+.dark {
+  --ph-bg: #0e0e10;
+  --ph-surface: #17171a;
+  --ph-subtle: #1f1f23;
+  --ph-line: #2a2a2f;
+  --ph-ink: #ececef;
+  --ph-muted: #a1a1aa;
+  --ph-faint: #6b6b74;
+  --ph-accent: #9d8ff7;
+  --ph-accent-soft: #24203d;
+  --ph-pos: #3ecf8e;
+  --ph-pos-soft: #13291f;
+  --ph-neg: #f07166;
+  --ph-neg-soft: #34181a;
+  --ph-warn: #f0b04a;
+  --ph-warn-soft: #2e2413;
+  --ph-series-in: #8a7cf0;
+  --ph-series-out: #d95926;
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--ph-bg);
+  color: var(--ph-ink);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Thin, quiet scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ph-line) transparent;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+}
+.dark input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+@keyframes ph-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-in {
+  animation: ph-in 0.16s ease-out;
+}

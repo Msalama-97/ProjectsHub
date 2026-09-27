@@ -1,0 +1,53 @@
+# Coolify deployment (Build Pack: Docker Compose, Docker Compose Location: /docker-compose.coolify.yml)
+# Coolify fills in the SERVICE_* values automatically — no secrets to type.
+# After the first deploy, find the admin password under Environment Variables → SERVICE_PASSWORD_ADMIN.
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      - SERVICE_URL_APP_8080
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=projecthub
+      - POSTGRES_USER=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_64_POSTGRES}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-mustafa.salama97@hotmail.com}
+      - ADMIN_NAME=${ADMIN_NAME:-Salama}
+      - ADMIN_PASSWORD=${SERVICE_PASSWORD_ADMIN}
+      - JWT_SECRET=${SERVICE_PASSWORD_64_JWT}
+      - MAX_UPLOAD_MB=${MAX_UPLOAD_MB:-50}
+      - TZ=${TZ:-Africa/Cairo}
+    volumes:
+      - app_data:/data
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=projecthub
+      - POSTGRES_USER=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_64_POSTGRES}
+      - TZ=${TZ:-Africa/Cairo}
+      - PGTZ=${TZ:-Africa/Cairo}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  app_data:
+  db_data:

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+backups/*.sql
+backups/*.dump
+uploads/
+*.log
+run-local/
+server-login.txt
+_transfer/
